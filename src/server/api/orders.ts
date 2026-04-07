@@ -48,9 +48,8 @@ export const ordersRouter = tsr.router(ordersContract, {
     // Look up current prices for all requested products
     const productIds = body.items.map((i) => i.productId);
     const products = await sql<Product[]>`
-      SELECT * FROM products WHERE id IN (${productIds})
+      SELECT * FROM products WHERE id IN ${sql(productIds)}
     `;
-
     const priceMap = new Map(products.map((p) => [p.id, p.price_cents]));
 
     // Create the order

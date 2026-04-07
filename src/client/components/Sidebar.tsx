@@ -6,12 +6,27 @@ export function Sidebar() {
       <h1 className="text-lg font-bold px-2">Le Fancy Café</h1>
 
       <div>
-        <Link
-          to={{ name: "orders" }}
-          className="block w-full text-left px-2 py-1.5 rounded hover:bg-zinc-800 transition-colors font-medium"
-        >
-          Orders
-        </Link>
+        <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider px-2 mb-2">
+          Sell
+        </p>
+        <ul className="space-y-1">
+          <li>
+            <Link
+              to={{ name: "newOrder" }}
+              className="block w-full text-left px-2 py-1.5 rounded hover:bg-zinc-800 transition-colors"
+            >
+              New Order
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={{ name: "orders" }}
+              className="block w-full text-left px-2 py-1.5 rounded hover:bg-zinc-800 transition-colors"
+            >
+              Orders
+            </Link>
+          </li>
+        </ul>
       </div>
 
       <div>

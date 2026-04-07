@@ -5,6 +5,7 @@ import { ProductsPage } from "./ProductsPage";
 import { ProductPage } from "./ProductPage";
 import { OrdersPage } from "./OrdersPage";
 import { OrderPage } from "./OrderPage";
+import { NewOrderPage } from "./NewOrderPage";
 
 // To add a new page:
 //   1. Create a component in this directory (e.g. SettingsPage.tsx)
@@ -16,6 +17,7 @@ import { OrderPage } from "./OrderPage";
 export const pages = {
   products: ProductsPage,
   product: ProductPage,
+  newOrder: NewOrderPage,
   orders: OrdersPage,
   order: OrderPage,
   notes: NotesPage,

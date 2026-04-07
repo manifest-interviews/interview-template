@@ -2,6 +2,7 @@ import { useState } from "react";
 import { RouterProvider } from "./router";
 import { pages, type Page } from "./pages";
 import { Sidebar } from "./components/Sidebar";
+import { CartProvider } from "./cart";
 export type { Page };
 
 // Looks up the page component from the `pages` map and renders it with the
@@ -17,14 +18,16 @@ export function App() {
   const [page, setPage] = useState<Page>({ name: "products" });
 
   return (
-    <RouterProvider setPage={setPage}>
-      <div className="flex h-screen">
-        <Sidebar />
-        <main className="flex-1 overflow-y-auto">
-          <CurrentPage {...page} />
-        </main>
-      </div>
-    </RouterProvider>
+    <CartProvider>
+      <RouterProvider setPage={setPage}>
+        <div className="flex h-screen">
+          <Sidebar />
+          <main className="flex-1 overflow-y-auto">
+            <CurrentPage {...page} />
+          </main>
+        </div>
+      </RouterProvider>
+    </CartProvider>
   );
 }
 
