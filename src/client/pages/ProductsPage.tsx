@@ -2,10 +2,8 @@ import { useState } from "react";
 import { tsr } from "../tsr";
 import { Link } from "../router";
 import { Wait } from "../components/Wait";
-
-function formatPrice(cents: number) {
-  return `$${(cents / 100).toFixed(2)}`;
-}
+import { formatPrice, parsePriceToCents } from "../helpers";
+import { Button } from "../components/Button";
 
 export function ProductsPage() {
   const [name, setName] = useState("");
@@ -38,7 +36,7 @@ export function ProductsPage() {
         className="flex gap-2 mb-8"
         onSubmit={(e) => {
           e.preventDefault();
-          const cents = Math.round(parseFloat(price) * 100);
+          const cents = parsePriceToCents(price);
           if (!name.trim() || !sku.trim() || isNaN(cents)) return;
           createProduct({
             body: { name: name.trim(), sku: sku.trim(), price_cents: cents },
@@ -66,12 +64,7 @@ export function ProductsPage() {
           placeholder="Price"
           className="w-24 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:outline-none focus:border-zinc-500"
         />
-        <button
-          type="submit"
-          className="px-6 py-2 bg-white text-black rounded-lg font-medium hover:bg-zinc-200 transition-colors"
-        >
-          Add
-        </button>
+        <Button type="submit">Add</Button>
       </form>
 
       <Wait for={query}>

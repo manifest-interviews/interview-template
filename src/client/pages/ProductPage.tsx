@@ -2,10 +2,8 @@ import { useState } from "react";
 import { tsr } from "../tsr";
 import { Link } from "../router";
 import { Wait } from "../components/Wait";
-
-function formatPrice(cents: number) {
-  return `$${(cents / 100).toFixed(2)}`;
-}
+import { formatPrice, parsePriceToCents } from "../helpers";
+import { Button } from "../components/Button";
 
 export function ProductPage({ productId }: { productId: number }) {
   const query = tsr.products.get.useQuery({
@@ -66,12 +64,9 @@ function ProductDetail({
         <p className="text-zinc-500 text-sm mb-6">
           Added {new Date(product.created_at).toLocaleDateString()}
         </p>
-        <button
-          onClick={() => setEditing(true)}
-          className="px-4 py-2 bg-zinc-700 rounded-lg hover:bg-zinc-600 transition-colors"
-        >
+        <Button variant="secondary" onClick={() => setEditing(true)}>
           Edit
-        </button>
+        </Button>
       </div>
     );
   }
@@ -81,7 +76,7 @@ function ProductDetail({
       className="space-y-4"
       onSubmit={(e) => {
         e.preventDefault();
-        const cents = Math.round(parseFloat(price) * 100);
+        const cents = parsePriceToCents(price);
         if (!name.trim() || !sku.trim() || isNaN(cents)) return;
         updateProduct({
           params: { id: String(productId) },
@@ -117,13 +112,9 @@ function ProductDetail({
         />
       </div>
       <div className="flex gap-2">
-        <button
-          type="submit"
-          className="px-6 py-2 bg-white text-black rounded-lg font-medium hover:bg-zinc-200 transition-colors"
-        >
-          Save
-        </button>
-        <button
+        <Button type="submit">Save</Button>
+        <Button
+          variant="secondary"
           type="button"
           onClick={() => {
             setName(product.name);
@@ -131,10 +122,9 @@ function ProductDetail({
             setPrice((product.price_cents / 100).toFixed(2));
             setEditing(false);
           }}
-          className="px-6 py-2 bg-zinc-700 rounded-lg hover:bg-zinc-600 transition-colors"
         >
           Cancel
-        </button>
+        </Button>
       </div>
     </form>
   );

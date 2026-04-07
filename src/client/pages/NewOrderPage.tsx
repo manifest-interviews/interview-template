@@ -3,10 +3,8 @@ import { tsr } from "../tsr";
 import { useCart } from "../cart";
 import { useNavigate } from "../router";
 import { Wait } from "../components/Wait";
-
-function formatPrice(cents: number) {
-  return `$${(cents / 100).toFixed(2)}`;
-}
+import { formatPrice } from "../helpers";
+import { Button } from "../components/Button";
 
 export function NewOrderPage() {
   const query = tsr.products.list.useQuery({ queryKey: ["products"] });
@@ -58,21 +56,21 @@ export function NewOrderPage() {
                     <div className="flex items-center gap-2">
                       {qty > 0 && (
                         <>
-                          <button
+                          <Button
+                            variant="icon"
                             onClick={() => removeItem(product.id)}
-                            className="w-8 h-8 rounded bg-zinc-700 hover:bg-zinc-600 transition-colors"
                           >
                             -
-                          </button>
+                          </Button>
                           <span className="w-8 text-center">{qty}</span>
                         </>
                       )}
-                      <button
+                      <Button
+                        variant="icon"
                         onClick={() => addItem(product.id)}
-                        className="w-8 h-8 rounded bg-zinc-700 hover:bg-zinc-600 transition-colors"
                       >
                         +
-                      </button>
+                      </Button>
                     </div>
                   </li>
                 );
@@ -125,7 +123,8 @@ export function NewOrderPage() {
                     {error && (
                       <p className="text-red-400 text-sm mb-3">{error}</p>
                     )}
-                    <button
+                    <Button
+                      className="w-full"
                       disabled={isPending}
                       onClick={() => {
                         createOrder({
@@ -139,10 +138,9 @@ export function NewOrderPage() {
                           },
                         });
                       }}
-                      className="w-full py-2 bg-white text-black rounded-lg font-medium hover:bg-zinc-200 transition-colors disabled:opacity-50"
                     >
                       {isPending ? "Placing..." : "Place Order"}
-                    </button>
+                    </Button>
                   </div>
                 </div>
               );

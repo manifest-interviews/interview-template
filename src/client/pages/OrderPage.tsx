@@ -1,10 +1,7 @@
 import { tsr } from "../tsr";
 import { Link } from "../router";
 import { Wait } from "../components/Wait";
-
-function formatPrice(cents: number) {
-  return `$${(cents / 100).toFixed(2)}`;
-}
+import { formatPrice } from "../helpers";
 
 export function OrderPage({ orderId }: { orderId: number }) {
   const query = tsr.orders.get.useQuery({
