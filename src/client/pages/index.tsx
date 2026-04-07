@@ -2,6 +2,7 @@ import type { ComponentProps } from "react";
 import { NotesPage } from "./NotesPage";
 import { NotePage } from "./NotePage";
 import { ProductsPage } from "./ProductsPage";
+import { ProductPage } from "./ProductPage";
 
 // To add a new page:
 //   1. Create a component in this directory (e.g. SettingsPage.tsx)
@@ -12,6 +13,7 @@ import { ProductsPage } from "./ProductsPage";
 // navigating to it looks like: <Link to={{ name: "note", noteId: 1 }}>
 export const pages = {
   products: ProductsPage,
+  product: ProductPage,
   notes: NotesPage,
   note: NotePage,
 } as const;

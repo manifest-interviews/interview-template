@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { tsr } from "../tsr";
+import { Link } from "../router";
 import { Wait } from "../components/Wait";
 
 function formatPrice(cents: number) {
@@ -6,11 +8,71 @@ function formatPrice(cents: number) {
 }
 
 export function ProductsPage() {
+  const [name, setName] = useState("");
+  const [sku, setSku] = useState("");
+  const [price, setPrice] = useState("");
+
   const query = tsr.products.list.useQuery({ queryKey: ["products"] });
+  const tsrQueryClient = tsr.useQueryClient();
+
+  const { mutate: createProduct } = tsr.products.create.useMutation({
+    onSuccess: () => {
+      tsrQueryClient.invalidateQueries({ queryKey: ["products"] });
+      setName("");
+      setSku("");
+      setPrice("");
+    },
+  });
+
+  const { mutate: deleteProduct } = tsr.products.delete.useMutation({
+    onSuccess: () => {
+      tsrQueryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
 
   return (
     <div className="max-w-3xl mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-8">Menu</h1>
+      <h1 className="text-3xl font-bold mb-8">Products</h1>
+
+      <form
+        className="flex gap-2 mb-8"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const cents = Math.round(parseFloat(price) * 100);
+          if (!name.trim() || !sku.trim() || isNaN(cents)) return;
+          createProduct({
+            body: { name: name.trim(), sku: sku.trim(), price_cents: cents },
+          });
+        }}
+      >
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Name"
+          className="flex-1 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:outline-none focus:border-zinc-500"
+        />
+        <input
+          type="text"
+          value={sku}
+          onChange={(e) => setSku(e.target.value)}
+          placeholder="SKU"
+          className="w-40 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:outline-none focus:border-zinc-500"
+        />
+        <input
+          type="text"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          placeholder="Price"
+          className="w-24 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:outline-none focus:border-zinc-500"
+        />
+        <button
+          type="submit"
+          className="px-6 py-2 bg-white text-black rounded-lg font-medium hover:bg-zinc-200 transition-colors"
+        >
+          Add
+        </button>
+      </form>
 
       <Wait for={query}>
         {(data) => (
@@ -20,10 +82,26 @@ export function ProductsPage() {
                 key={product.id}
                 className="flex items-center justify-between p-4 rounded-lg bg-zinc-800/50 border border-zinc-800"
               >
-                <span className="font-medium">{product.name}</span>
-                <span className="text-zinc-400">
+                <Link
+                  to={{ name: "product", productId: product.id }}
+                  className="text-left flex-1"
+                >
+                  <span className="font-medium">{product.name}</span>
+                  <span className="text-zinc-500 text-sm ml-3">
+                    {product.sku}
+                  </span>
+                </Link>
+                <span className="text-zinc-400 mr-4">
                   {formatPrice(product.price_cents)}
                 </span>
+                <button
+                  onClick={() =>
+                    deleteProduct({ params: { id: String(product.id) } })
+                  }
+                  className="text-zinc-500 hover:text-red-400 transition-colors"
+                >
+                  Delete
+                </button>
               </li>
             ))}
             {data.body.length === 0 && (

@@ -22,4 +22,40 @@ export const productsRouter = tsr.router(productsContract, {
 
     return { status: 200, body: product };
   },
+
+  create: async ({ body }) => {
+    const [product] = await sql<Product[]>`
+      INSERT INTO products (name, sku, price_cents)
+      VALUES (${body.name}, ${body.sku}, ${body.price_cents})
+      RETURNING *
+    `;
+
+    return { status: 201, body: product! };
+  },
+
+  update: async ({ params, body }) => {
+    const [existing] = await sql<Product[]>`
+      SELECT * FROM products WHERE id = ${params.id}
+    `;
+
+    if (!existing)
+      return { status: 404, body: { message: "Product not found" } };
+
+    const [product] = await sql<Product[]>`
+      UPDATE products SET
+        name = ${body.name ?? existing.name},
+        sku = ${body.sku ?? existing.sku},
+        price_cents = ${body.price_cents ?? existing.price_cents}
+      WHERE id = ${params.id}
+      RETURNING *
+    `;
+
+    return { status: 200, body: product! };
+  },
+
+  delete: async ({ params }) => {
+    await sql`DELETE FROM products WHERE id = ${params.id}`;
+
+    return { status: 204, body: undefined };
+  },
 });
