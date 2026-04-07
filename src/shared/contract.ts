@@ -3,7 +3,6 @@
 // import from here. To add a new resource, register its contract below.
 
 import { initContract } from "@ts-rest/core";
-import { notesContract } from "./contracts/notes";
 import { productsContract } from "./contracts/products";
 import { ordersContract } from "./contracts/orders";
 
@@ -11,7 +10,6 @@ const c = initContract();
 
 export const contract = c.router({
   // Register new contracts here:
-  notes: notesContract,
   products: productsContract,
   orders: ordersContract,
 });

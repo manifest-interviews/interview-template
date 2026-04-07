@@ -3,13 +3,11 @@
 
 import { tsr } from "@ts-rest/serverless/fetch";
 import { contract } from "../../shared/contract";
-import { notesRouter } from "./notes";
 import { productsRouter } from "./products";
 import { ordersRouter } from "./orders";
 
 export const router = tsr.router(contract, {
   // Register additional routers here:
-  notes: notesRouter,
   products: productsRouter,
   orders: ordersRouter,
 });

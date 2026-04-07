@@ -1,5 +1,8 @@
 # Manifest Interview App
 
+A cafe point-of-sale system. Products, orders, and a checkout flow are already
+built — you'll extend and build on top of it during the interview.
+
 ## Preparing for the interview
 
 Please clone the repo and get the app running locally with the steps below.
@@ -25,7 +28,7 @@ curl -fsSL https://claude.ai/install.sh | bash
 
 We'll provide you with Claude API keys at the start of the interview.
 
-Feel free to explore the repo beforehand. The stack is intentionally light.  You're welcome to add
+Feel free to explore the repo beforehand. The stack is intentionally light. You're welcome to add
 libraries (a component library, an ORM, etc.) before or during the interview to make yourself more
 productive. We naturally expect you to cut corners in an interview that you wouldn't cut in
 production.
@@ -39,11 +42,11 @@ production.
 
 ## Adding a feature end-to-end
 
-The notes feature is a complete working example. To add a new resource, follow the same pattern:
+The products and orders features are complete working examples. To add a new resource, follow the same pattern:
 
 1. **DB Schema** — update `src/server/schema.sql` as needed
     - Optionally add seed data in `src/server/seed.ts`
-    - On restart, the server detects changes to either file and drops and recreates all tables with fresh seed data.  No db migrations.
+    - The server detects changes to either file and drops and recreates all tables with fresh seed data. No db migrations.
 2. **Contract** — define routes and Zod schemas under `src/shared/contracts/`, then register it in `src/shared/contract.ts`
 3. **Handlers** — implement the contract in a new file under `src/server/api/`, then register it in `src/server/api/index.ts`
 4. **Page** — add a React component in `src/client/pages/`, then register it in `src/client/pages/index.tsx`

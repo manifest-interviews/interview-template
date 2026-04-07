@@ -1,6 +1,6 @@
-# Interview App
+# Cafe POS
 
-This is a prototype app. Default to simplicity, but follow the user's lead — if they want to go deeper on something, go deeper. See `README.md` for more detail.
+This is a prototype cafe point-of-sale app. Default to simplicity, but follow the user's lead — if they want to go deeper on something, go deeper. See `README.md` for more detail.
 
 ## Stack
 
@@ -13,7 +13,7 @@ This is a prototype app. Default to simplicity, but follow the user's lead — i
 
 Schema → contract → handler → page.
 
-1. `src/server/schema.sql` — add tables (and optionally `src/server/seed.ts` for seed data). Server drops/recreates on restart when either file changes.
+1. `src/server/schema.sql` — add tables (and optionally `src/server/seed.ts` for seed data). Server drops/recreates when either file changes.
 2. `src/shared/contracts/` — define routes + Zod schemas, register in `src/shared/contract.ts`
 3. `src/server/api/` — implement handlers, register in `src/server/api/index.ts`
 4. `src/client/pages/` — add a React component, register in `src/client/pages/index.tsx`

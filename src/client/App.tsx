@@ -15,7 +15,7 @@ function CurrentPage(page: Page) {
 }
 
 export function App() {
-  const [page, setPage] = useState<Page>({ name: "products" });
+  const [page, setPage] = useState<Page>({ name: "newOrder" });
 
   return (
     <CartProvider>
