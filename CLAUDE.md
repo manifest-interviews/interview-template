@@ -1,111 +1,37 @@
----
-description: Use Bun instead of Node.js, npm, pnpm, or vite.
-globs: "*.ts, *.tsx, *.html, *.css, *.js, *.jsx, package.json"
-alwaysApply: false
----
+# Interview App
+
+This is a prototype app. Default to simplicity, but follow the user's lead — if they want to go deeper on something, go deeper. See `README.md` for more detail.
+
+## Stack
+
+- **Server:** Bun with `Bun.serve()` — no Express
+- **Database:** SQLite via [`Bun.sql`](https://bun.com/docs/runtime/sql) tagged template literals — no ORMs, no `bun:sqlite`
+- **API:** [ts-rest](https://ts-rest.com) contracts with [Zod](https://zod.dev) validation, shared between server and client
+- **Frontend:** React 19, [Tailwind CSS](https://tailwindcss.com), React Query (hooks auto-generated from ts-rest contracts)
+
+## Adding a feature
+
+Schema → contract → handler → page.
+
+1. `src/server/schema.sql` — add tables (and optionally `src/server/seed.ts` for seed data). Server drops/recreates on restart when either file changes.
+2. `src/shared/contracts/` — define routes + Zod schemas, register in `src/shared/contract.ts`
+3. `src/server/api/` — implement handlers, register in `src/server/api/index.ts`
+4. `src/client/pages/` — add a React component, register in `src/client/pages/index.tsx`
+
+API responses are validated against the Zod contracts at runtime.
+
+## After making changes
+
+Run `bun run check` to type-check the project.
+
+## Bun, not Node
 
 Default to using Bun instead of Node.js.
 
-- Use `bun <file>` instead of `node <file>` or `ts-node <file>`
-- Use `bun test` instead of `jest` or `vitest`
-- Use `bun build <file.html|file.ts|file.css>` instead of `webpack` or `esbuild`
-- Use `bun install` instead of `npm install` or `yarn install` or `pnpm install`
-- Use `bun run <script>` instead of `npm run <script>` or `yarn run <script>` or `pnpm run <script>`
-- Use `bunx <package> <command>` instead of `npx <package> <command>`
-- Bun automatically loads .env, so don't use dotenv.
-
-## APIs
-
-- `Bun.serve()` supports WebSockets, HTTPS, and routes. Don't use `express`.
-- `bun:sqlite` for SQLite. Don't use `better-sqlite3`.
-- `Bun.redis` for Redis. Don't use `ioredis`.
-- `Bun.sql` for Postgres. Don't use `pg` or `postgres.js`.
-- `WebSocket` is built-in. Don't use `ws`.
-- Prefer `Bun.file` over `node:fs`'s readFile/writeFile
-- Bun.$`ls` instead of execa.
-
-## Testing
-
-Use `bun test` to run tests.
-
-```ts#index.test.ts
-import { test, expect } from "bun:test";
-
-test("hello world", () => {
-  expect(1).toBe(1);
-});
-```
-
-## Frontend
-
-Use HTML imports with `Bun.serve()`. Don't use `vite`. HTML imports fully support React, CSS, Tailwind.
-
-Server:
-
-```ts#index.ts
-import index from "./index.html"
-
-Bun.serve({
-  routes: {
-    "/": index,
-    "/api/users/:id": {
-      GET: (req) => {
-        return new Response(JSON.stringify({ id: req.params.id }));
-      },
-    },
-  },
-  // optional websocket support
-  websocket: {
-    open: (ws) => {
-      ws.send("Hello, world!");
-    },
-    message: (ws, message) => {
-      ws.send(message);
-    },
-    close: (ws) => {
-      // handle close
-    }
-  },
-  development: {
-    hmr: true,
-    console: true,
-  }
-})
-```
-
-HTML files can import .tsx, .jsx or .js files directly and Bun's bundler will transpile & bundle automatically. `<link>` tags can point to stylesheets and Bun's CSS bundler will bundle.
-
-```html#index.html
-<html>
-  <body>
-    <h1>Hello, world!</h1>
-    <script type="module" src="./frontend.tsx"></script>
-  </body>
-</html>
-```
-
-With the following `frontend.tsx`:
-
-```tsx#frontend.tsx
-import React from "react";
-import { createRoot } from "react-dom/client";
-
-// import .css files directly and it works
-import './index.css';
-
-const root = createRoot(document.body);
-
-export default function Frontend() {
-  return <h1>Hello, world!</h1>;
-}
-
-root.render(<Frontend />);
-```
-
-Then, run index.ts
-
-```sh
-bun --hot ./index.ts
-```
-
-For more information, read the Bun API docs in `node_modules/bun-types/docs/**.mdx`.
+- `bun <file>` not `node` / `ts-node`
+- `bun test` not `jest` / `vitest`
+- `bun install` not `npm` / `yarn` / `pnpm`
+- `bun run <script>` not `npm run`
+- `bunx <pkg>` not `npx`
+- Bun auto-loads `.env` — no dotenv
+- Prefer `Bun.file` over `node:fs`

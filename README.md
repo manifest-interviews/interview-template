@@ -1,21 +1,51 @@
-# bun-react-tailwind-template
+# Manifest Interview App
 
-To install dependencies:
+## Preparing for the interview
+
+Please clone the repo and get the app running locally with the steps below.
+
+Install [bun](https://bun.com/) (Node.js-compatible runtime) and dependencies, and start a development server:
 
 ```bash
+# Install bun
+curl -fsSL https://bun.sh/install | bash
+# Install dependencies
 bun install
-```
-
-To start a development server:
-
-```bash
+# Dev server
 bun dev
 ```
 
-To run for production:
+Make sure you can access the app at [http://localhost:3001/](http://localhost:3001/).
+
+Finally, install [Claude Code](https://code.claude.com/docs/en/quickstart):
 
 ```bash
-bun start
+curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-This project was created using `bun init` in bun v1.3.11. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+We'll provide you with Claude API keys at the start of the interview.
+
+Feel free to explore the repo beforehand. The stack is intentionally light.  You're welcome to add
+libraries (a component library, an ORM, etc.) before or during the interview to make yourself more
+productive. We naturally expect you to cut corners in an interview that you wouldn't cut in
+production.
+
+## Stack overview
+
+- **Runtime:** [Bun](https://bun.sh) — server, bundler, and package manager in one
+- **Database:** SQLite via Bun's built-in [SQL client](https://bun.com/docs/runtime/sql) (tagged template literals)
+- **API:** [ts-rest](https://ts-rest.com) — type-safe contracts shared between server and client, with Zod validation
+- **Frontend:** React 19, Tailwind CSS, React Query (auto-generated hooks from ts-rest contracts)
+
+## Adding a feature end-to-end
+
+The notes feature is a complete working example. To add a new resource, follow the same pattern:
+
+1. **DB Schema** — update `src/server/schema.sql` as needed
+    - Optionally add seed data in `src/server/seed.ts`
+    - On restart, the server detects changes to either file and drops and recreates all tables with fresh seed data.  No db migrations.
+2. **Contract** — define routes and Zod schemas under `src/shared/contracts/`, then register it in `src/shared/contract.ts`
+3. **Handlers** — implement the contract in a new file under `src/server/api/`, then register it in `src/server/api/index.ts`
+4. **Page** — add a React component in `src/client/pages/`, then register it in `src/client/pages/index.tsx`
+
+API responses are validated against the Zod contracts at runtime, so schema mismatches surface immediately.

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { tsr } from "../tsr";
 import { Link } from "../router";
 import { Wait } from "../components/Wait";
-import type { Note } from "../../shared/contract";
+import type { Note } from "../../shared/contracts/notes";
 
 export function NotesPage() {
   const [title, setTitle] = useState("");

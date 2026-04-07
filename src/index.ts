@@ -3,7 +3,11 @@ import { contract } from "./shared/contract";
 import { router } from "./server/api";
 import index from "./index.html";
 
-const apiHandler = createFetchHandler(contract, router);
+// Validate all responses against the contract's Zod schemas at runtime,
+// so raw SQL results are checked even though handlers use casts.
+const apiHandler = createFetchHandler(contract, router, {
+  responseValidation: true,
+});
 
 const server = Bun.serve({
   port: 3001,

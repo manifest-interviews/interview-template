@@ -1,6 +1,17 @@
 import type { UseQueryResult } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 
+/**
+ * Renders loading/error states for a React Query result.
+ *
+ * ```tsx
+ * const query = tsr.foo.useQuery(...);
+ *
+ * <Wait for={query}>
+ *   {(data) => <div>{data.body.title}</div>}
+ * </Wait>
+ * ```
+ */
 export function Wait<T, E = Error>({
   for: query,
   children,

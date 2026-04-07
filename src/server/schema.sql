@@ -1,7 +1,7 @@
 -- Edit this file to change the database schema.
 --
--- The server will automatically drop and recreate
--- all tables on restart when this file changes.
+-- The server will automatically drop and recreate all tables, then seed
+-- on restart when this file (or seed.ts) changes.
 
 CREATE TABLE IF NOT EXISTS notes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
