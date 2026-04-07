@@ -24,6 +24,7 @@ export async function seed() {
     ('Tote Bag',             'tote-bag',         2200)`;
 
   // A few sample orders so the orders page isn't empty.
+  // Product IDs match insertion order above (1=Drip Coffee, 2=Latte, etc.)
   // Prices are snapshotted from the products above.
   await sql`INSERT INTO orders (status) VALUES
     ('completed'),
@@ -31,11 +32,12 @@ export async function seed() {
     ('completed')`;
 
   await sql`INSERT INTO order_items (order_id, product_id, quantity, unit_price_cents) VALUES
-    (1, 2, 2, 550),
-    (1, 9, 1, 375),
-    (2, 1, 1, 250),
-    (2, 6, 1, 600),
-    (2, 10, 2, 400),
-    (3, 8, 3, 450),
-    (3, 13, 1, 450)`;
+    (1, 2,  2, 550),  -- 2x Latte
+    (1, 9,  1, 375),  -- 1x Croissant
+    (2, 1,  1, 250),  -- 1x Drip Coffee
+    (2, 6,  1, 600),  -- 1x Matcha Latte
+    (2, 10, 2, 400),  -- 2x Blueberry Muffin
+    (3, 8,  3, 450),  -- 3x Cold Brew
+    (3, 13, 1, 450)   -- 1x Cinnamon Roll
+  `;
 }
