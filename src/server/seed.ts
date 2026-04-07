@@ -22,4 +22,20 @@ export async function seed() {
     ('Cinnamon Roll',        'cinnamon-roll',     450),
     ('Ceramic Mug',          'ceramic-mug',      1800),
     ('Tote Bag',             'tote-bag',         2200)`;
+
+  // A few sample orders so the orders page isn't empty.
+  // Prices are snapshotted from the products above.
+  await sql`INSERT INTO orders (status) VALUES
+    ('completed'),
+    ('completed'),
+    ('completed')`;
+
+  await sql`INSERT INTO order_items (order_id, product_id, quantity, unit_price_cents) VALUES
+    (1, 2, 2, 550),
+    (1, 9, 1, 375),
+    (2, 1, 1, 250),
+    (2, 6, 1, 600),
+    (2, 10, 2, 400),
+    (3, 8, 3, 450),
+    (3, 13, 1, 450)`;
 }

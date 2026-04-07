@@ -1,4 +1,5 @@
 import { SQL } from "bun";
+import { seed } from "./seed";
 
 /**
  * SQLite database connection using Bun's built-in SQL client.
@@ -25,13 +26,14 @@ const [prev] = await sql`SELECT value FROM _meta WHERE key = 'schema_hash'`;
 
 if (prev?.value !== hash) {
   // Drop all user tables and recreate
+  await sql`PRAGMA foreign_keys = OFF`;
   const tables =
     await sql`SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE '_meta' AND name NOT LIKE 'sqlite_%'`;
   for (const { name } of tables) {
     await sql.unsafe(`DROP TABLE IF EXISTS "${name}"`);
   }
   await sql.unsafe(schema);
-  const { seed } = await import("./seed");
+  await sql`PRAGMA foreign_keys = ON`;
   await seed();
   await sql`INSERT OR REPLACE INTO _meta (key, value) VALUES ('schema_hash', ${hash})`;
   console.log("Schema changed — recreated and seeded database.");
