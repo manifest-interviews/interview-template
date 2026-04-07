@@ -1,6 +1,7 @@
 import type { ComponentProps } from "react";
 import { NotesPage } from "./NotesPage";
 import { NotePage } from "./NotePage";
+import { ProductsPage } from "./ProductsPage";
 
 // To add a new page:
 //   1. Create a component in this directory (e.g. SettingsPage.tsx)
@@ -10,6 +11,7 @@ import { NotePage } from "./NotePage";
 // become the navigation params — e.g. NotePage has `{ noteId: number }`, so
 // navigating to it looks like: <Link to={{ name: "note", noteId: 1 }}>
 export const pages = {
+  products: ProductsPage,
   notes: NotesPage,
   note: NotePage,
 } as const;

@@ -3,9 +3,10 @@
 -- The server will automatically drop and recreate all tables, then seed
 -- on restart when this file (or seed.ts) changes.
 
-CREATE TABLE IF NOT EXISTS notes (
+CREATE TABLE IF NOT EXISTS products (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  content TEXT NOT NULL DEFAULT '',
+  name TEXT NOT NULL,
+  sku TEXT NOT NULL UNIQUE,
+  price_cents INTEGER NOT NULL,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );

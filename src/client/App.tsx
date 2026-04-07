@@ -13,7 +13,7 @@ function CurrentPage(page: Page) {
 }
 
 export function App() {
-  const [page, setPage] = useState<Page>({ name: "notes" });
+  const [page, setPage] = useState<Page>({ name: "products" });
 
   return (
     <RouterProvider setPage={setPage}>

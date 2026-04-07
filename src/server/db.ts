@@ -31,9 +31,8 @@ if (prev?.value !== hash) {
     await sql.unsafe(`DROP TABLE IF EXISTS "${name}"`);
   }
   await sql.unsafe(schema);
-  await sql`INSERT OR REPLACE INTO _meta (key, value) VALUES ('schema_hash', ${hash})`;
-  console.log("Schema changed — recreated database tables.");
-
   const { seed } = await import("./seed");
   await seed();
+  await sql`INSERT OR REPLACE INTO _meta (key, value) VALUES ('schema_hash', ${hash})`;
+  console.log("Schema changed — recreated and seeded database.");
 }

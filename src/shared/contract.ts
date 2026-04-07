@@ -4,10 +4,12 @@
 
 import { initContract } from "@ts-rest/core";
 import { notesContract } from "./contracts/notes";
+import { productsContract } from "./contracts/products";
 
 const c = initContract();
 
 export const contract = c.router({
   // Register new contracts here:
   notes: notesContract,
+  products: productsContract,
 });
