@@ -26,7 +26,7 @@ Finally, install [Claude Code](https://code.claude.com/docs/en/quickstart):
 curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-We'll provide you with Claude API keys at the start of the interview.
+We'll provide you with Claude API keys at the start of the interview.  You may use a different tool (e.g., Cursor, Codex) using your own subscription if you prefer.
 
 Feel free to explore the repo beforehand. The stack is intentionally light. You're welcome to add
 libraries (a component library, an ORM, etc.) before or during the interview to make yourself more
