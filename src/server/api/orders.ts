@@ -37,7 +37,7 @@ export const ordersRouter = tsr.router(ordersContract, {
   },
 
   get: async ({ params }) => {
-    const order = await getOrderWithItems(Number(params.id));
+    const order = await getOrderWithItems(params.id);
 
     if (!order) return { status: 404, body: { message: "Order not found" } };
 

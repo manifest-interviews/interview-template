@@ -25,7 +25,7 @@ export const productsContract = c.router({
     method: "GET",
     path: "/api/products/:id",
     pathParams: z.object({
-      id: z.string(),
+      id: z.coerce.number(),
     }),
     responses: {
       200: ProductSchema,
@@ -48,7 +48,7 @@ export const productsContract = c.router({
     method: "PATCH",
     path: "/api/products/:id",
     pathParams: z.object({
-      id: z.string(),
+      id: z.coerce.number(),
     }),
     body: z.object({
       name: z.string().optional(),
@@ -64,7 +64,7 @@ export const productsContract = c.router({
     method: "DELETE",
     path: "/api/products/:id",
     pathParams: z.object({
-      id: z.string(),
+      id: z.coerce.number(),
     }),
     body: c.noBody(),
     responses: {

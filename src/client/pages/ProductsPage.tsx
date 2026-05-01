@@ -89,7 +89,7 @@ export function ProductsPage() {
                 </span>
                 <button
                   onClick={() =>
-                    deleteProduct({ params: { id: String(product.id) } })
+                    deleteProduct({ params: { id: product.id } })
                   }
                   className="text-zinc-500 hover:text-red-400 transition-colors"
                 >

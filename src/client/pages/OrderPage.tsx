@@ -6,7 +6,7 @@ import { formatPrice } from "../helpers";
 export function OrderPage({ orderId }: { orderId: number }) {
   const query = tsr.orders.get.useQuery({
     queryKey: ["orders", orderId],
-    queryData: { params: { id: String(orderId) } },
+    queryData: { params: { id: orderId } },
   });
 
   return (

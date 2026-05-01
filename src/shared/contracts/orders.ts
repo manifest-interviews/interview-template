@@ -40,7 +40,7 @@ export const ordersContract = c.router({
     method: "GET",
     path: "/api/orders/:id",
     pathParams: z.object({
-      id: z.string(),
+      id: z.coerce.number(),
     }),
     responses: {
       200: OrderWithItemsSchema,

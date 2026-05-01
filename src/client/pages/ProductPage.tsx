@@ -8,7 +8,7 @@ import { Button } from "../components/Button";
 export function ProductPage({ productId }: { productId: number }) {
   const query = tsr.products.get.useQuery({
     queryKey: ["products", productId],
-    queryData: { params: { id: String(productId) } },
+    queryData: { params: { id: productId } },
   });
 
   return (
@@ -79,7 +79,7 @@ function ProductDetail({
         const cents = parsePriceToCents(price);
         if (!name.trim() || !sku.trim() || isNaN(cents)) return;
         updateProduct({
-          params: { id: String(productId) },
+          params: { id: productId },
           body: { name: name.trim(), sku: sku.trim(), price_cents: cents },
         });
       }}
