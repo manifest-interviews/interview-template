@@ -44,9 +44,8 @@ production.
 
 The products and orders features are complete working examples. To add a new resource, follow the same pattern:
 
-1. **DB Schema** — update `src/server/schema.sql` as needed
-   - Optionally add seed data in `src/server/seed.ts`
-   - The server detects changes to either file and drops and recreates all tables with fresh seed data. No db migrations.
+1. **DB Schema** — update `src/server/schema.sql` as needed (table definitions and seed data live in the same file)
+   - The server detects changes and drops and recreates all tables with fresh seed data. No db migrations.
 2. **Contract** — define routes and Zod schemas under `src/shared/contracts/`, then register it in `src/shared/contract.ts`
 3. **Handlers** — implement the contract in a new file under `src/server/api/`, then register it in `src/server/api/index.ts`
 4. **Page** — add a React component in `src/client/pages/`, then register it in `src/client/pages/index.tsx`
