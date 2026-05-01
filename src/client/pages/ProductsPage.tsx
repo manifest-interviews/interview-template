@@ -2,13 +2,11 @@ import { useState } from "react";
 import { tsr } from "../tsr";
 import { Link } from "../router";
 import { Wait } from "../components/Wait";
-import { formatPrice, parsePriceToCents } from "../helpers";
-import { Button } from "../components/Button";
+import { formatPrice } from "../helpers";
+import { ProductForm } from "../components/ProductForm";
 
 export function ProductsPage() {
-  const [name, setName] = useState("");
-  const [sku, setSku] = useState("");
-  const [price, setPrice] = useState("");
+  const [adding, setAdding] = useState(false);
 
   const query = tsr.products.list.useQuery({ queryKey: ["products"] });
   const tsrQueryClient = tsr.useQueryClient();
@@ -16,9 +14,7 @@ export function ProductsPage() {
   const { mutate: createProduct } = tsr.products.create.useMutation({
     onSuccess: () => {
       tsrQueryClient.invalidateQueries({ queryKey: ["products"] });
-      setName("");
-      setSku("");
-      setPrice("");
+      setAdding(false);
     },
   });
 
@@ -32,40 +28,22 @@ export function ProductsPage() {
     <div className="max-w-3xl mx-auto p-8">
       <h1 className="text-3xl font-bold mb-8">Products</h1>
 
-      <form
-        className="flex gap-2 mb-8"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const cents = parsePriceToCents(price);
-          if (!name.trim() || !sku.trim() || isNaN(cents)) return;
-          createProduct({
-            body: { name: name.trim(), sku: sku.trim(), price_cents: cents },
-          });
-        }}
-      >
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Name"
-          className="flex-1 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:outline-none focus:border-zinc-500"
-        />
-        <input
-          type="text"
-          value={sku}
-          onChange={(e) => setSku(e.target.value)}
-          placeholder="SKU"
-          className="w-40 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:outline-none focus:border-zinc-500"
-        />
-        <input
-          type="text"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder="Price"
-          className="w-24 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 focus:outline-none focus:border-zinc-500"
-        />
-        <Button type="submit">Add</Button>
-      </form>
+      <div className="mb-8">
+        {adding ? (
+          <ProductForm
+            submitLabel="Add"
+            onSubmit={(body) => createProduct({ body })}
+            onCancel={() => setAdding(false)}
+          />
+        ) : (
+          <button
+            onClick={() => setAdding(true)}
+            className="text-zinc-400 hover:text-white transition-colors"
+          >
+            + Add product
+          </button>
+        )}
+      </div>
 
       <Wait for={query}>
         {(data) => (
