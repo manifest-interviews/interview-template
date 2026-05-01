@@ -1,7 +1,6 @@
 -- Edit this file to change the database schema or seed data.
 --
--- The server will automatically drop and recreate all tables on restart
--- when this file changes.
+-- The server automatically restarts and drops/recreates all tables on changes.
 
 -- ============================================================================
 -- Schema
@@ -62,7 +61,7 @@ INSERT INTO orders (status) VALUES
   ('completed');
 
 INSERT INTO order_items (order_id, product_id, quantity, unit_price_cents) VALUES
-  (1, 3,  1, 550),  -- 2x Latte
+  (1, 2,  2, 550),  -- 2x Latte
   (1, 9,  1, 375),  -- 1x Croissant
   (2, 1,  1, 250),  -- 1x Drip Coffee
   (2, 6,  1, 600),  -- 1x Matcha Latte

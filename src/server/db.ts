@@ -1,4 +1,6 @@
 import { SQL } from "bun";
+// Imported as text so `bun --watch` restarts the server when schema.sql changes.
+import schema from "./schema.sql" with { type: "text" };
 
 /**
  * SQLite database connection using Bun's built-in SQL client.
@@ -12,8 +14,6 @@ export const sql = new SQL("sqlite://data.db");
 
 await sql`PRAGMA journal_mode = WAL`;
 await sql`PRAGMA foreign_keys = ON`;
-
-const schema = await Bun.file(import.meta.dir + "/schema.sql").text();
 
 // Auto-recreate tables when the schema changes (for development convenience).
 // Edit schema.sql and the server will drop and rebuild tables on restart.
