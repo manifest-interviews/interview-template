@@ -3,11 +3,11 @@
 A cafe point-of-sale system. Products, orders, and a checkout flow are already
 built — you'll extend and build on top of it during the interview.
 
-**Please do not fork this repository.**
+**Please do not fork this repository.**  Just clone it locally.
 
 ## Preparing for the interview
 
-Please fork and clone this repo and get the app running locally with the steps below.
+Please clone this repo and get the app running locally with the steps below.
 
 Install [bun](https://bun.com/) (Node.js-compatible runtime) and dependencies, and start a development server:
 
